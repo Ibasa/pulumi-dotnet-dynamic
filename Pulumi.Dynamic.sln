@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Dynamic", "sdk\Pulumi.Dynamic.csproj", "{CB829D04-4579-48C3-AA25-F62AA3A8D54B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pulumi-resource-dotnet-dynamic", "cmd\pulumi-resource-dotnet-dynamic.csproj", "{64218823-275F-4084-9C34-8C61D546BA98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pulumi-resource-dotnet-dynamic", "cmd\pulumi-resource-dotnet-dynamic.csproj", "{64218823-275F-4084-9C34-8C61D546BA98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulumi.Dynamic.Test", "tests\Pulumi.Dynamic.Test.csproj", "{3FE3F864-08E2-4021-B8CC-130CFB5CD35E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{64218823-275F-4084-9C34-8C61D546BA98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64218823-275F-4084-9C34-8C61D546BA98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64218823-275F-4084-9C34-8C61D546BA98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FE3F864-08E2-4021-B8CC-130CFB5CD35E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FE3F864-08E2-4021-B8CC-130CFB5CD35E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FE3F864-08E2-4021-B8CC-130CFB5CD35E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FE3F864-08E2-4021-B8CC-130CFB5CD35E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
