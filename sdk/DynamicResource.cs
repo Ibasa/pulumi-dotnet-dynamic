@@ -1,9 +1,7 @@
-﻿// Copyright 2016-2022, Pulumi Corporation
+﻿// Copyright 2016-2023, Pulumi Corporation
 
-using System;
-using System.IO;
 
-namespace Pulumi.Dynamic
+namespace Pulumi.Experimental.Dynamic
 {
     public class DynamicResourceArgs : ResourceArgs
     {
@@ -11,53 +9,12 @@ namespace Pulumi.Dynamic
         public Input<string> Provider { get; set; } = null!;
     }
 
-    public class DynamicResource : CustomResource
+    public class DynamicResource<T> : CustomResource where T : DynamicResourceArgs, new()
     {
-        private static string GetTypeName()
+        private static string GetTypeName(string? module, string type)
         {
-            // We need to pass the resource type name down to CustomResource, but due to how constructors run in C# this makes it _really_ hard 
-            // to get hold of the current type being constructed.
-
-            var stack = new System.Diagnostics.StackTrace(false);
-
-            // Find this method in the stack, then grab the .ctor just above it
-            System.Reflection.MethodBase? ctor = null;
-            for(int i = 0; i < stack.FrameCount; ++i)
-            {
-                var frame = stack.GetFrame(i);
-                System.Diagnostics.Debug.Assert(frame != null, "StackTrace.GetFrame returned null for an access within bounds");
-
-                var method = frame.GetMethod();
-                if (method != null && method.Name == "GetTypeName")
-                {
-                    // Look up the stack chain for the top .ctor
-                    for (; i < stack.FrameCount; ++i)
-                    {
-                        frame = stack.GetFrame(i + 1);
-                        System.Diagnostics.Debug.Assert(frame != null, "StackTrace.GetFrame returned null for an access within bounds");
-
-                        method = frame.GetMethod();
-                        if (method is System.Reflection.ConstructorInfo)
-                        {
-                            ctor = method;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-
-            if (ctor == null)
-            {
-                throw new Exception("Internal error: could not find resource constructor in stack frames");
-            }
-
-            var type = ctor.DeclaringType;
-            var typeName = string.IsNullOrEmpty(type.Namespace) ? $"dynamic:{type.Name}" : $"dynamic/{type.Namespace}:{type.Name}"; ;
-            return $"pulumi-dotnet:{typeName}";
+            module = module == null ? "dynamic" : $"dynamic/{module}";
+            return $"pulumi-dotnet:{module}:{type}";
         }
 
         private static Ibasa.Pikala.AssemblyPickleMode ByValueFilter(System.Reflection.Assembly assembly)
@@ -74,11 +31,11 @@ namespace Pulumi.Dynamic
             return Ibasa.Pikala.AssemblyPickleMode.Default;
         }
 
-        private static ResourceArgs SetProvider(ResourceProvider provider, DynamicResourceArgs? args)
+        private static ResourceArgs SetProvider(DynamicProvider provider, T? args)
         {
             if (args == null)
             {
-                args = new DynamicResourceArgs();
+                args = new T();
             }
 
             var pickler = new Ibasa.Pikala.Pickler(ByValueFilter);
@@ -89,11 +46,8 @@ namespace Pulumi.Dynamic
             return args;
         }
 
-
-#pragma warning disable RS0022 // Constructor make noninheritable base class inheritable
-        public DynamicResource(ResourceProvider provider, string name, DynamicResourceArgs? args, CustomResourceOptions? options = null)
-            : base(GetTypeName(), name, SetProvider(provider, args), options)
-#pragma warning restore RS0022 // Constructor make noninheritable base class inheritable
+        public DynamicResource(DynamicProvider provider, string name, T? args, CustomResourceOptions? options = null, string? module = null, string? type = "Resource")
+            : base(GetTypeName(module, type), name, SetProvider(provider, args), options)
         {
         }
     }

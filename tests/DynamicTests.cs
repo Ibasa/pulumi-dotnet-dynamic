@@ -3,17 +3,20 @@
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Pulumi.Dynamic.Test
+namespace Pulumi.Experimental.Dynamic.Test
 {
-    sealed class SomeDynamicResourceProvider : DynamicResourceProvider { 
-    
+    sealed class DynamicResourceProvider : DynamicProvider
+    {
+
     }
 
-
-    public sealed class SomeDynamicResource : DynamicResource
+    sealed class SomeDynamicArgs : DynamicResourceArgs
     {
-        
-        private static DynamicResourceProvider provider = new SomeDynamicResourceProvider();
+    }
+
+    sealed class SomeDynamicResource : DynamicResource<SomeDynamicArgs>
+    {
+        private static DynamicResourceProvider provider = new DynamicResourceProvider();
 
         public SomeDynamicResource(string name) : base(provider, name, null)
         {
@@ -23,7 +26,7 @@ namespace Pulumi.Dynamic.Test
 
 
 
-public class DynamicTests
+    public class DynamicTests
     {
         [Fact]
         public async Task TestSimple()
