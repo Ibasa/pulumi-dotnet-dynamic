@@ -30,7 +30,7 @@ class DynamicResourceProvider : Provider
         }
 
         var pickler = new Ibasa.Pikala.Pickler();
-        var memoryStream = new MemoryStream(Convert.FromBase64String(providerString));
+        var memoryStream = new MemoryStream(Convert.FromBase64String(providerString!));
         var provider = pickler.Deserialize(memoryStream) as DynamicProvider;
         if (provider == null)
         {
@@ -89,7 +89,7 @@ class DynamicResourceProvider : Provider
         return response;
     }
 
-    public override async Task<ReadResponse> Read(ReadRequest request, CancellationToken ct)
+    public override Task<ReadResponse> Read(ReadRequest request, CancellationToken ct)
     {
         throw new Exception("Read is not supported by dynamic providers");
     }
@@ -126,7 +126,7 @@ class DynamicResourceProvider : Provider
 
 public static class Program
 {
-    public static async void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         await Provider.Serve(args, host => new DynamicResourceProvider(host), CancellationToken.None);
     }

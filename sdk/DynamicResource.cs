@@ -13,8 +13,8 @@ namespace Pulumi.Experimental.Dynamic
     {
         private static string GetTypeName(string? module, string type)
         {
-            module = module == null ? "dynamic" : $"dynamic/{module}";
-            return $"pulumi-dotnet:{module}:{type}";
+            module = module == null ? "index" : $"index/{module}";
+            return $"dotnet-dynamic:{module}:{type}";
         }
 
         private static Ibasa.Pikala.AssemblyPickleMode ByValueFilter(System.Reflection.Assembly assembly)
@@ -46,7 +46,7 @@ namespace Pulumi.Experimental.Dynamic
             return args;
         }
 
-        public DynamicResource(DynamicProvider provider, string name, T? args, CustomResourceOptions? options = null, string? module = null, string? type = "Resource")
+        public DynamicResource(DynamicProvider provider, string name, T? args, CustomResourceOptions? options = null, string? module = null, string type = "Resource")
             : base(GetTypeName(module, type), name, SetProvider(provider, args), options)
         {
         }
