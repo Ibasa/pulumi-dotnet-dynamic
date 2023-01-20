@@ -9,7 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pulumi-resource-dotnet-dyna
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Dynamic.Test", "tests\Pulumi.Dynamic.Test.csproj", "{3FE3F864-08E2-4021-B8CC-130CFB5CD35E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{142A9A39-E184-4FAA-BCF8-24E02303174F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "Example\Example.csproj", "{142A9A39-E184-4FAA-BCF8-24E02303174F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{C0289962-62AA-4B1A-8559-F7158F6DE08D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{B0A3C4FF-F2DE-4101-B5E1-47030F5F1D14}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\pr.yaml = .github\workflows\pr.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +43,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B0A3C4FF-F2DE-4101-B5E1-47030F5F1D14} = {C0289962-62AA-4B1A-8559-F7158F6DE08D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {482D5A13-06B1-47F9-BF90-C3CFDB8BAE30}
