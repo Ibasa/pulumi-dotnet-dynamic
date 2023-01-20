@@ -47,4 +47,8 @@ jobs:
       - name: Install Pulumi CLI
         uses: pulumi/setup-pulumi@v2
       - name: Pulumi up
-        run: cd Example && pulumi up -y
+        run: cd Example && 
+            pulumi stack init test &&
+            pulumi up -y &&
+            pulumit destroy -y &&
+            pulumi stack rm -y
