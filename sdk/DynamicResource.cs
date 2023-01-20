@@ -6,7 +6,7 @@ namespace Pulumi.Experimental.Dynamic
     public class DynamicResourceArgs : ResourceArgs
     {
         [Input("__provider", required: true)]
-        public Input<string> Provider { get; set; } = null!;
+        internal Input<string> Provider { get; set; } = null!;
     }
 
     public class DynamicResource<T> : CustomResource where T : DynamicResourceArgs, new()
@@ -21,7 +21,7 @@ namespace Pulumi.Experimental.Dynamic
         {
             // Assemblies known to be used for defining dynamic providers
             var knownAssemblies = new string[] {
-              "Pulumi", "System.Collections.Immutable"
+              "Pulumi", "Pulumi.Dynamic", "System.Collections.Immutable"
           };
             var assemblyName = assembly.GetName().Name;
             if (!Array.Exists(knownAssemblies, name => name == assemblyName))
@@ -46,8 +46,23 @@ namespace Pulumi.Experimental.Dynamic
             return args;
         }
 
+        private static CustomResourceOptions SetVersion(CustomResourceOptions? options)
+        {
+            options = options ?? new CustomResourceOptions();
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            if (version == null)
+            {
+                options.Version = "0.0.1";
+            }
+            else
+            {
+                options.Version = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Revision);
+            }
+            return options;
+        }
+
         public DynamicResource(DynamicProvider provider, string name, T? args, CustomResourceOptions? options = null, string? module = null, string type = "Resource")
-            : base(GetTypeName(module, type), name, SetProvider(provider, args), options)
+            : base(GetTypeName(module, type), name, SetProvider(provider, args), SetVersion(options))
         {
         }
     }

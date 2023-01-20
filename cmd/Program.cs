@@ -31,22 +31,36 @@ class DynamicResourceProvider : Provider
 
         var pickler = new Ibasa.Pikala.Pickler();
         var memoryStream = new MemoryStream(Convert.FromBase64String(providerString!));
-        var provider = pickler.Deserialize(memoryStream) as DynamicProvider;
+        var providerObject = pickler.Deserialize(memoryStream);
+        var provider = providerObject as DynamicProvider;
         if (provider == null)
         {
-            throw new Exception("Dynamic resource could not deserialise provider implementation");
+            throw new Exception(string.Format("Dynamic resource could not deserialise provider implementation: {0}", providerObject));
         }
         return (providerValue, provider);
     }
 
     public override Task<CheckResponse> CheckConfig(CheckRequest request, CancellationToken ct)
     {
-        throw new Exception("CheckConfig is not supported by dynamic providers");
+        if (request.News.Count != 0)
+        {
+            throw new Exception("Config is not supported by dynamic providers");
+        }
+
+        return Task.FromResult(new CheckResponse()
+        {
+            Inputs = request.News,
+        });
     }
 
     public override Task<DiffResponse> DiffConfig(DiffRequest request, CancellationToken ct)
     {
-        throw new Exception("DiffConfig is not supported by dynamic providers");
+        if (request.News.Count != 0)
+        {
+            throw new Exception("Config is not supported by dynamic providers");
+        }
+
+        return Task.FromResult(new DiffResponse());
     }
 
     public override Task<InvokeResponse> Invoke(InvokeRequest request, CancellationToken ct)
