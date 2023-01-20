@@ -41,17 +41,25 @@ class DynamicResourceProvider : Provider
         return (providerValue, provider);
     }
 
-    private static string FormatProperties(ImmutableDictionary<string, PropertyValue> properties)
+    private static void CheckProperties(ImmutableDictionary<string, PropertyValue> properties)
     {
-        return string.Join(", ", properties.Select(p => string.Format("{0} = {1}", p.Key, p.Value.ToString())));
+        // Throw if we get any properties except "version"
+        if (properties.Count == 0)
+        {
+            return;
+        }
+        if (properties.Count == 1 && properties.Single().Key == "version")
+        {
+            return;
+        }
+
+        var values = string.Join(", ", properties.Select(p => string.Format("{0} = {1}", p.Key, p.Value.ToString())));
+        throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", values));
     }
 
     public override Task<CheckResponse> CheckConfig(CheckRequest request, CancellationToken ct)
     {
-        if (request.News.Count != 0)
-        {
-            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", FormatProperties(request.News)));
-        }
+        CheckProperties(request.News);
 
         return Task.FromResult(new CheckResponse()
         {
@@ -61,10 +69,7 @@ class DynamicResourceProvider : Provider
 
     public override Task<DiffResponse> DiffConfig(DiffRequest request, CancellationToken ct)
     {
-        if (request.News.Count != 0)
-        {
-            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", FormatProperties(request.News)));
-        }
+        CheckProperties(request.News);
 
         return Task.FromResult(new DiffResponse());
     }
@@ -81,10 +86,7 @@ class DynamicResourceProvider : Provider
 
     public override Task<ConfigureResponse> Configure(ConfigureRequest request, CancellationToken ct)
     {
-        if (request.Args.Count != 0)
-        {
-            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", FormatProperties(request.Args)));
-        }
+        CheckProperties(request.Args);
 
         var response = new ConfigureResponse();
         response.AcceptSecrets = false;
