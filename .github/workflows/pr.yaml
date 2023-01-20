@@ -49,6 +49,7 @@ jobs:
           upsert: true
           work-dir: ./Example
           stack-name: test-${{ matrix.os }}
+          config-map: "dummy: fix"
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN_PRODUCTION }}
       - name: Pulumi down
@@ -58,5 +59,6 @@ jobs:
           remove: true
           work-dir: ./Example
           stack-name: test-${{ matrix.os }}
+          config-map: "dummy: fix"
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN_PRODUCTION }}
