@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using Pulumi.Experimental.Dynamic;
 using Pulumi.Experimental.Provider;
+using System.Linq;
 
 class DynamicResourceProvider : Provider
 {
@@ -40,11 +41,16 @@ class DynamicResourceProvider : Provider
         return (providerValue, provider);
     }
 
+    private static string FormatProperties(ImmutableDictionary<string, PropertyValue> properties)
+    {
+        return string.Join(", ", properties.Select(p => string.Format("{0} = {1}", p.Key, p.Value.ToString())));
+    }
+
     public override Task<CheckResponse> CheckConfig(CheckRequest request, CancellationToken ct)
     {
         if (request.News.Count != 0)
         {
-            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", request.News));
+            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", FormatProperties(request.News)));
         }
 
         return Task.FromResult(new CheckResponse()
@@ -57,7 +63,7 @@ class DynamicResourceProvider : Provider
     {
         if (request.News.Count != 0)
         {
-            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", request.News));
+            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", FormatProperties(request.News)));
         }
 
         return Task.FromResult(new DiffResponse());
@@ -77,7 +83,7 @@ class DynamicResourceProvider : Provider
     {
         if (request.Args.Count != 0)
         {
-            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", request.Args));
+            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", FormatProperties(request.Args)));
         }
 
         var response = new ConfigureResponse();
