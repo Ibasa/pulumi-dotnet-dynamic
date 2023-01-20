@@ -1,0 +1,50 @@
+on:
+  pull_request:
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'CHANGELOG_PENDING.md'
+  push:
+    branches:
+      - main
+    tags:
+      - v*.*.*
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'CHANGELOG_PENDING.md'
+
+env:
+  PULUMI_API: https://api.pulumi-staging.io
+  PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PULUMI_TEST_OWNER: "moolumi"
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup dotnet SDK v6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+      - name: Format Pulumi SDK
+        run: dotnet run format-sdk verify
+      - name: Build 
+        run: dotnet build
+  Test:
+    strategy:
+        matrix:
+          os: [ubuntu-latest, windows-latest, macos-11]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup dotnet SDK v6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+      - name: Install Pulumi CLI
+        uses: pulumi/setup-pulumi@v2
+      - name: Pulumi up
+        run: cd Example && pulumi up -y
