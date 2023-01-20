@@ -47,7 +47,7 @@ jobs:
         uses: pulumi/setup-pulumi@v2
       - name: Pulumi up
         run: cd Example && 
-            pulumi stack select -c test &&
+            pulumi stack select -c test-${{ matrix.os }} &&
             pulumi up -y &&
             pulumit destroy -y &&
             pulumi stack rm -y
