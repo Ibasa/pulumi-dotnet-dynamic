@@ -1,7 +1,5 @@
 ﻿// Copyright 2016-2023, Pulumi Corporation
 using System.Collections.Immutable;
-using Microsoft.Extensions.Options;
-using Pulumi;
 using Pulumi.Experimental.Dynamic;
 using Pulumi.Experimental.Provider;
 
@@ -46,7 +44,7 @@ class DynamicResourceProvider : Provider
     {
         if (request.News.Count != 0)
         {
-            throw new Exception("Config is not supported by dynamic providers");
+            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", request.News));
         }
 
         return Task.FromResult(new CheckResponse()
@@ -59,7 +57,7 @@ class DynamicResourceProvider : Provider
     {
         if (request.News.Count != 0)
         {
-            throw new Exception("Config is not supported by dynamic providers");
+            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", request.News));
         }
 
         return Task.FromResult(new DiffResponse());
@@ -77,6 +75,11 @@ class DynamicResourceProvider : Provider
 
     public override Task<ConfigureResponse> Configure(ConfigureRequest request, CancellationToken ct)
     {
+        if (request.Args.Count != 0)
+        {
+            throw new Exception(string.Format("Config is not supported by dynamic providers, got: {0}", request.Args));
+        }
+
         var response = new ConfigureResponse();
         response.AcceptSecrets = false;
         response.AcceptOutputs = false;
