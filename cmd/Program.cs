@@ -1,5 +1,7 @@
 ﻿// Copyright 2016-2023, Pulumi Corporation
 using System.Collections.Immutable;
+using Microsoft.Extensions.Options;
+using Pulumi;
 using Pulumi.Experimental.Dynamic;
 using Pulumi.Experimental.Provider;
 
@@ -85,7 +87,15 @@ class DynamicResourceProvider : Provider
     public override Task<GetPluginInfoResponse> GetPluginInfo(CancellationToken ct)
     {
         var response = new GetPluginInfoResponse();
-        response.Version = "0.1.0";
+        var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        if (version == null)
+        {
+            response.Version = "0.0.1";
+        }
+        else
+        {
+            response.Version = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Revision);
+        }
         return Task.FromResult(response);
     }
 
