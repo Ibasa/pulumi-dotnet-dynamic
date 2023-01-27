@@ -14,7 +14,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PULUMI_TEST_OWNER: "moolumi"
+  PULUMI_CONFIG_PASSPHRASE: test
 
 jobs:
   Build:
@@ -49,6 +49,7 @@ jobs:
           upsert: true
           work-dir: ./Example
           stack-name: test-${{ matrix.os }}
+          cloud-url: "file://"
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN_PRODUCTION }}
       - name: Pulumi down
@@ -58,5 +59,6 @@ jobs:
           remove: true
           work-dir: ./Example
           stack-name: test-${{ matrix.os }}
+          cloud-url: "file://"
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN_PRODUCTION }}
