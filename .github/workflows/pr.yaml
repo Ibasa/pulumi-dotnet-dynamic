@@ -43,7 +43,7 @@ jobs:
         with:
           dotnet-version: '6.0.x'
       - name: Pulumi up
-        uses: pulumi/actions@v4
+        uses: pulumi/actions@ddcac955fd004d13bc60bd0bdbbc389b1f524216
         with:
           command: up
           upsert: true
@@ -53,7 +53,7 @@ jobs:
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN_PRODUCTION }}
       - name: Pulumi down
-        uses: pulumi/actions@v4
+        uses: pulumi/actions@ddcac955fd004d13bc60bd0bdbbc389b1f524216
         with:
           command: destroy
           remove: true
