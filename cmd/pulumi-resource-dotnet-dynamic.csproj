@@ -6,6 +6,8 @@
     <RootNamespace>Ibasa.Pulumi.Dynamic</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
     <Version>0.0.1</Version>
     <Authors>Ibasa</Authors>
     <Company>Ibasa</Company>
