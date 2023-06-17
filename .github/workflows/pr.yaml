@@ -82,26 +82,26 @@ jobs:
     if: github.ref == 'refs/heads/main'
     strategy:
         matrix:
-            rid: 
-            - win10-x64
-            - win10-arm64
-            - linux-x64
-            - linux-arm64
-            - osx.11.0-x64
-            - osx.11.0-arm64
+            target: 
+            - { rid: win10-x64, osarch: windows-amd64 }
+            - { rid: win10-arm64, osarch: windows-arm64}
+            - { rid: linux-x64, osarch: linux-amd64 }
+            - { rid: linux-arm64, osarch: linux-arm64 }
+            - { rid: osx.11.0-x64, osarch: darwin-amd64 }
+            - { rid: osx.11.0-arm64, osarch: darwin-arm64 }
 
     steps:
     - uses: actions/checkout@v2
     - name: Publish cmd
       run: |
         cd cmd && 
-        dotnet publish --configuration Release --self-contained --runtime ${{matrix.rid}}
+        dotnet publish --configuration Release --self-contained --runtime ${{matrix.target.rid}}
     - name: TarGz
       run: |
-        cd cmd/bin/Release/net6.0/${{matrix.rid}}/publish && tar -czf pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.rid}}.tar.gz *
+        cd cmd/bin/Release/net6.0/${{matrix.rid}}/publish && tar -czf pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.target.osarch}}.tar.gz *
     - name: Upload files to a GitHub release
       uses: svenstaro/upload-release-action@2.6.1
       with:
         tag: v0.0.1
         overwrite: true
-        file:  cmd/bin/Release/net6.0/${{matrix.rid}}/publish/pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.rid}}.tar.gz
+        file:  cmd/bin/Release/net6.0/${{matrix.rid}}/publish/pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.target.osarch}}.tar.gz
