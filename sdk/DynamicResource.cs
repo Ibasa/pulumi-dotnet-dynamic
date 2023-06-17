@@ -45,7 +45,7 @@ namespace Ibasa.Pulumi.Dynamic
             return args;
         }
 
-        private static CustomResourceOptions SetVersion(CustomResourceOptions? options)
+        private static CustomResourceOptions SetDefaultOptions(CustomResourceOptions? options)
         {
             options = options ?? new CustomResourceOptions();
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
@@ -57,11 +57,14 @@ namespace Ibasa.Pulumi.Dynamic
             {
                 options.Version = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Revision);
             }
+
+            options.PluginDownloadURL = "github://api.github.com/Ibasa";
+
             return options;
         }
 
         public DynamicResource(DynamicProvider provider, string name, T? args, CustomResourceOptions? options = null, string? module = null, string type = "Resource")
-            : base(GetTypeName(module, type), name, SetProvider(provider, args), SetVersion(options))
+            : base(GetTypeName(module, type), name, SetProvider(provider, args), SetDefaultOptions(options))
         {
         }
     }
