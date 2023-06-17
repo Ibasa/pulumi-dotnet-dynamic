@@ -6,7 +6,13 @@
     <RootNamespace>Ibasa.Pulumi.Dynamic</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <Version>0.0.1</Version>
+    <Version>0.0.1</Version>
+    <Authors>Ibasa</Authors>
+    <Company>Ibasa</Company>
+    <RepositoryUrl>https://github.com/Ibasa/Pikala</RepositoryUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageTags>Pulumi;Dynamic</PackageTags>
+    <Copyright>Fraser Waters</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

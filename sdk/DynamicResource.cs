@@ -20,7 +20,7 @@ namespace Ibasa.Pulumi.Dynamic
         {
             // Assemblies known to be used for defining dynamic providers
             var knownAssemblies = new string[] {
-              "Pulumi", "Pulumi.Dynamic", "System.Collections.Immutable"
+              "Pulumi", "Ibasa.Pulumi.Dynamic", "System.Collections.Immutable"
           };
             var assemblyName = assembly.GetName().Name;
             if (!Array.Exists(knownAssemblies, name => name == assemblyName))
