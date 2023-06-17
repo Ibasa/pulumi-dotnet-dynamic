@@ -41,12 +41,18 @@ class DynamicResourceProvider : Provider
 
     private static void CheckProperties(ImmutableDictionary<string, PropertyValue> properties)
     {
-        // Throw if we get any properties except "version"
+        // Throw if we get any properties except "version" and "pluginDownloadURL"
         if (properties.Count == 0)
         {
             return;
         }
-        if (properties.Count == 1 && properties.Single().Key == "version")
+
+        if (properties.Count == 1 && properties.ContainsKey("version") || properties.ContainsKey("pluginDownloadURL"))
+        {
+            return;
+        }
+
+        if (properties.Count == 2 && properties.ContainsKey("version") && properties.ContainsKey("pluginDownloadURL"))
         {
             return;
         }
