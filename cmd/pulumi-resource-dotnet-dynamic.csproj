@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\sdk\Pulumi.Dynamic.csproj" />
+    <ProjectReference Include="..\sdk\Ibasa.Pulumi.Dynamic.csproj" />
   </ItemGroup>
 
 </Project>

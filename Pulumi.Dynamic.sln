@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Dynamic", "sdk\Pulumi.Dynamic.csproj", "{CB829D04-4579-48C3-AA25-F62AA3A8D54B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibasa.Pulumi.Dynamic", "sdk\Ibasa.Pulumi.Dynamic.csproj", "{CB829D04-4579-48C3-AA25-F62AA3A8D54B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pulumi-resource-dotnet-dynamic", "cmd\pulumi-resource-dotnet-dynamic.csproj", "{64218823-275F-4084-9C34-8C61D546BA98}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Dynamic.Test", "tests\Pulumi.Dynamic.Test.csproj", "{3FE3F864-08E2-4021-B8CC-130CFB5CD35E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibasa.Pulumi.Dynamic.Test", "tests\Ibasa.Pulumi.Dynamic.Test.csproj", "{3FE3F864-08E2-4021-B8CC-130CFB5CD35E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "Example\Example.csproj", "{142A9A39-E184-4FAA-BCF8-24E02303174F}"
 EndProject
