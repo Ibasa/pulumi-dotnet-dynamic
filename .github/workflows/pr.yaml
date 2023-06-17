@@ -98,14 +98,14 @@ jobs:
         dotnet publish --configuration Release --self-contained --runtime ${{matrix.target.rid}}
     - name: TarGz
       run: |
-        cd cmd/bin/Release/net6.0/${{matrix.target.rid}}/publish && tar -czf pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.target.osarch}}.tar.gz *
+        cd cmd/bin/Release/net6.0/${{matrix.target.rid}}/publish && tar -czf pulumi-resource-dotnet-dynamic-v0.0.2-${{matrix.target.osarch}}.tar.gz *
     - name: Upload files to a GitHub release
       uses: svenstaro/upload-release-action@2.6.1
       with:
-        tag: v0.0.1
+        tag: v0.0.2
         overwrite: true
-        file:  cmd/bin/Release/net6.0/${{matrix.target.rid}}/publish/pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.target.osarch}}.tar.gz
-        asset_name: pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.target.osarch}}.tar.gz
+        file:  cmd/bin/Release/net6.0/${{matrix.target.rid}}/publish/pulumi-resource-dotnet-dynamic-v0.0.2-${{matrix.target.osarch}}.tar.gz
+        asset_name: pulumi-resource-dotnet-dynamic-v0.0.2-${{matrix.target.osarch}}.tar.gz
         promote: false
         prerelease: true
         mark_latest: false

@@ -51,13 +51,9 @@ namespace Ibasa.Pulumi.Dynamic
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             if (version == null)
             {
-                options.Version = "0.0.1";
+                throw new Exception("Expected assembly version to be set");
             }
-            else
-            {
-                options.Version = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
-            }
-
+            options.Version = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
             options.PluginDownloadURL = "github://api.github.com/Ibasa";
 
             return options;

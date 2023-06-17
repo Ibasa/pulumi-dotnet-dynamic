@@ -152,7 +152,6 @@ public static class Program
 {
     public static async Task Main(string[] args)
     {
-        // Make sure this matches the assembly version
-        await Provider.Serve(args, "0.0.1", host => new DynamicResourceProvider(host), CancellationToken.None);
+        await Provider.Serve(args, "0.0.2", host => new DynamicResourceProvider(host), CancellationToken.None);
     }
 }
