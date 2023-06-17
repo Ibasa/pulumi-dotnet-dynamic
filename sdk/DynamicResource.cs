@@ -55,7 +55,7 @@ namespace Ibasa.Pulumi.Dynamic
             }
             else
             {
-                options.Version = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Revision);
+                options.Version = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
             }
 
             options.PluginDownloadURL = "github://api.github.com/Ibasa";
