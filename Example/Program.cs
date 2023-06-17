@@ -1,8 +1,6 @@
-﻿// Copyright 2016-2023, Pulumi Corporation
-
-using Pulumi;
-using Pulumi.Experimental.Dynamic;
+﻿using Pulumi;
 using Pulumi.Experimental.Provider;
+using Ibasa.Pulumi.Dynamic;
 
 await Deployment.RunAsync(() =>
 {

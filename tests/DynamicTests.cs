@@ -1,10 +1,9 @@
-// Copyright 2016-2023, Pulumi Corporation
-
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using Pulumi.Automation;
 
-namespace Pulumi.Experimental.Dynamic.Test
+namespace Ibasa.Pulumi.Dynamic.Test
 {
     sealed class DynamicResourceProvider : DynamicProvider
     {
@@ -39,8 +38,8 @@ namespace Pulumi.Experimental.Dynamic.Test
                 });
             }
 
-            var args = new Automation.InlineProgramArgs("DotnetDynamic", "TestSimple", Automation.PulumiFn.Create(program));
-            using var stack = await Automation.LocalWorkspace.CreateOrSelectStackAsync(args);
+            var args = new InlineProgramArgs("DotnetDynamic", "TestSimple", PulumiFn.Create(program));
+            using var stack = await LocalWorkspace.CreateOrSelectStackAsync(args);
             var up = await stack.UpAsync();
         }
     }

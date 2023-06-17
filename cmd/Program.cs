@@ -1,8 +1,6 @@
-﻿// Copyright 2016-2023, Pulumi Corporation
-using System.Collections.Immutable;
-using Pulumi.Experimental.Dynamic;
+﻿using System.Collections.Immutable;
 using Pulumi.Experimental.Provider;
-using System.Linq;
+using Ibasa.Pulumi.Dynamic;
 
 class DynamicResourceProvider : Provider
 {
@@ -59,17 +57,17 @@ class DynamicResourceProvider : Provider
 
     public override Task<CheckResponse> CheckConfig(CheckRequest request, CancellationToken ct)
     {
-        CheckProperties(request.News);
+        CheckProperties(request.NewInputs);
 
         return Task.FromResult(new CheckResponse()
         {
-            Inputs = request.News,
+            Inputs = request.NewInputs,
         });
     }
 
     public override Task<DiffResponse> DiffConfig(DiffRequest request, CancellationToken ct)
     {
-        CheckProperties(request.News);
+        CheckProperties(request.NewInputs);
 
         return Task.FromResult(new DiffResponse());
     }
@@ -95,21 +93,6 @@ class DynamicResourceProvider : Provider
         return Task.FromResult(response);
     }
 
-    public override Task<GetPluginInfoResponse> GetPluginInfo(CancellationToken ct)
-    {
-        var response = new GetPluginInfoResponse();
-        var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-        if (version == null)
-        {
-            response.Version = "0.0.1";
-        }
-        else
-        {
-            response.Version = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Revision);
-        }
-        return Task.FromResult(response);
-    }
-
     private static IDictionary<string, PropertyValue> AddProvider(IDictionary<string, PropertyValue>? properties, PropertyValue provider)
     {
         var newDictionary = properties == null ? ImmutableDictionary<string, PropertyValue>.Empty : ImmutableDictionary.CreateRange(properties);
@@ -131,7 +114,7 @@ class DynamicResourceProvider : Provider
 
     public override async Task<CheckResponse> Check(CheckRequest request, CancellationToken ct)
     {
-        var (providerValue, provider) = GetProvider(request.News);
+        var (providerValue, provider) = GetProvider(request.NewInputs);
         var response = await provider.Check(request, ct);
         response.Inputs = AddProvider(response.Inputs, providerValue);
         return response;
@@ -139,7 +122,7 @@ class DynamicResourceProvider : Provider
 
     public override async Task<DiffResponse> Diff(DiffRequest request, CancellationToken ct)
     {
-        var (_, provider) = GetProvider(request.News);
+        var (_, provider) = GetProvider(request.NewInputs);
         var response = await provider.Diff(request, ct);
         return response;
     }
@@ -163,6 +146,7 @@ public static class Program
 {
     public static async Task Main(string[] args)
     {
-        await Provider.Serve(args, host => new DynamicResourceProvider(host), CancellationToken.None);
+        // Let the assembly version set the version to use
+        await Provider.Serve(args, null, host => new DynamicResourceProvider(host), CancellationToken.None);
     }
 }

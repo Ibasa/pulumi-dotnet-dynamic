@@ -1,7 +1,6 @@
-﻿// Copyright 2016-2023, Pulumi Corporation
+﻿using Pulumi;
 
-
-namespace Pulumi.Experimental.Dynamic
+namespace Ibasa.Pulumi.Dynamic
 {
     public class DynamicResourceArgs : ResourceArgs
     {

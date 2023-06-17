@@ -1,8 +1,6 @@
-﻿// Copyright 2016-2023, Pulumi Corporation
+﻿using Pulumi.Experimental.Provider;
 
-using Pulumi.Experimental.Provider;
-
-namespace Pulumi.Experimental.Dynamic
+namespace Ibasa.Pulumi.Dynamic
 {
     public abstract class DynamicProvider
     {
@@ -10,7 +8,7 @@ namespace Pulumi.Experimental.Dynamic
         {
             return Task.FromResult(new CheckResponse()
             {
-                Inputs = request.News
+                Inputs = request.NewInputs
             });
         }
 
