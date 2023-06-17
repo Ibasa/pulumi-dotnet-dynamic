@@ -146,7 +146,7 @@ public static class Program
 {
     public static async Task Main(string[] args)
     {
-        // Let the assembly version set the version to use
+        // Make sure this matches the assembly version
         await Provider.Serve(args, "0.0.1", host => new DynamicResourceProvider(host), CancellationToken.None);
     }
 }
