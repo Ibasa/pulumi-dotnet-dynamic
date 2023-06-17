@@ -10,7 +10,6 @@ env:
 jobs:
   Pack:    
     runs-on: ubuntu-latest
-    needs: [Lint, Test]
 
     steps:
     - uses: actions/checkout@v2

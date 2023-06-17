@@ -75,3 +75,33 @@ jobs:
           cloud-url: "file://"
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN_PRODUCTION }}
+
+  Publish:    
+    runs-on: ubuntu-latest
+    needs: [Lint, Test]
+    if: github.ref == 'refs/heads/main'
+    strategy:
+        matrix:
+            rid: 
+            - win10-x64
+            - win10-arm64
+            - linux-x64
+            - linux-arm64
+            - osx.11.0-x64
+            - osx.11.0-arm64
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Publish cmd
+      run: |
+        cd cmd && 
+        dotnet publish --configuration Release --self-contained --runtime ${{matrix.rid}}
+    - name: TarGz
+      run: |
+        cd cmd/bin/Release/net6.0/${{matrix.rid}}/publish && tar -xzf pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.rid}}.tar.gz *
+    - name: Upload files to a GitHub release
+      uses: svenstaro/upload-release-action@2.6.1
+      with:
+        tag: v0.0.1
+        overwrite: true
+        file:  cmd/bin/Release/net6.0/${{matrix.rid}}/publish/pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.rid}}.tar.gz
