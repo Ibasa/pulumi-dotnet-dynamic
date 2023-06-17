@@ -105,3 +105,4 @@ jobs:
         tag: v0.0.1
         overwrite: true
         file:  cmd/bin/Release/net6.0/${{matrix.target.rid}}/publish/pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.target.osarch}}.tar.gz
+        asset_name: pulumi-resource-dotnet-dynamic-v0.0.1-${{matrix.target.osarch}}.tar.gz
