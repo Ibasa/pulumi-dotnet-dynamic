@@ -17,6 +17,18 @@ env:
   PULUMI_CONFIG_PASSPHRASE: test
 
 jobs:
+  Lint:
+    # We lint in a seperate job so we can use the dotnet 6.0 sdk which has dotnet format
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core 6.0
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Lint with dotnet format
+      run: dotnet format --verify-no-changes
+
   Build:
     runs-on: ubuntu-latest
     steps:
@@ -30,6 +42,7 @@ jobs:
         run: dotnet format --verify-no-changes
       - name: Build 
         run: dotnet build
+
   Test:
     strategy:
         matrix:
@@ -62,3 +75,18 @@ jobs:
           cloud-url: "file://"
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN_PRODUCTION }}
+
+  Pack:    
+    runs-on: ubuntu-latest
+    needs: [Lint, Test]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Pack with dotnet
+      run: dotnet pack --configuration Release --output output
+    - name: Publish NuGet
+      if: github.ref == 'refs/heads/main'
+      run: dotnet nuget push -s https://api.nuget.org/v3/index.json -k ${NUGET_API_KEY} --skip-duplicate ./output/*.nupkg
+      env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
