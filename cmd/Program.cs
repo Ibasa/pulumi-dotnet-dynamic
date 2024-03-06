@@ -152,6 +152,6 @@ public static class Program
 {
     public static async Task Main(string[] args)
     {
-        await Provider.Serve(args, "0.0.2", host => new DynamicResourceProvider(host), CancellationToken.None);
+        await Provider.Serve(args, "0.0.3", host => new DynamicResourceProvider(host), CancellationToken.None);
     }
 }
