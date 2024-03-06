@@ -58,6 +58,7 @@ jobs:
       - name: Pulumi up
         uses: pulumi/actions@v4.4.0
         with:
+          pulumi-version: latest
           command: up
           upsert: true
           work-dir: ./Example
@@ -68,6 +69,7 @@ jobs:
       - name: Pulumi down
         uses: pulumi/actions@v4.4.0
         with:
+          pulumi-version: latest
           command: destroy
           remove: true
           work-dir: ./Example
