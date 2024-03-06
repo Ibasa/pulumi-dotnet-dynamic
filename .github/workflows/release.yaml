@@ -1,12 +1,13 @@
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  Pack:    
+  Pack:
     runs-on: ubuntu-latest
 
     steps:
